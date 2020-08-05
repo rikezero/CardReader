@@ -1,0 +1,208 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "6d00ed8a7af644e940d3580c10d50048",
+    "entities": [
+      {
+        "tableName": "default_cards",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`artist` TEXT NOT NULL, `artist_ids` TEXT NOT NULL, `card_back_id` TEXT NOT NULL, `cmc` TEXT NOT NULL, `color_identity` TEXT NOT NULL, `colors` TEXT NOT NULL, `id` TEXT NOT NULL, `illustration_id` TEXT NOT NULL, `image_uris` TEXT NOT NULL, `keywords` TEXT NOT NULL, `lang` TEXT NOT NULL, `legalities` TEXT NOT NULL, `mana_cost` TEXT NOT NULL, `name` TEXT NOT NULL, `object` TEXT NOT NULL, `oracle_text` TEXT NOT NULL, `power` TEXT NOT NULL, `preview` TEXT NOT NULL, `produced_mana` TEXT NOT NULL, `rarity` TEXT NOT NULL, `rulings_uri` TEXT NOT NULL, `scryfall_set_uri` TEXT NOT NULL, `scryfall_uri` TEXT NOT NULL, `set` TEXT NOT NULL, `set_name` TEXT NOT NULL, `set_search_uri` TEXT NOT NULL, `set_uri` TEXT NOT NULL, `toughness` TEXT NOT NULL, `type_line` TEXT NOT NULL, `uri` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "artist",
+            "columnName": "artist",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "artist_ids",
+            "columnName": "artist_ids",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "card_back_id",
+            "columnName": "card_back_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cmc",
+            "columnName": "cmc",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "color_identity",
+            "columnName": "color_identity",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "colors",
+            "columnName": "colors",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "illustration_id",
+            "columnName": "illustration_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "image_uris",
+            "columnName": "image_uris",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "keywords",
+            "columnName": "keywords",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lang",
+            "columnName": "lang",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "legalities",
+            "columnName": "legalities",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mana_cost",
+            "columnName": "mana_cost",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "objekt",
+            "columnName": "object",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "oracle_text",
+            "columnName": "oracle_text",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "power",
+            "columnName": "power",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "preview",
+            "columnName": "preview",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "produced_mana",
+            "columnName": "produced_mana",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rarity",
+            "columnName": "rarity",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rulings_uri",
+            "columnName": "rulings_uri",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "scryfall_set_uri",
+            "columnName": "scryfall_set_uri",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "scryfall_uri",
+            "columnName": "scryfall_uri",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "set",
+            "columnName": "set",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "set_name",
+            "columnName": "set_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "set_search_uri",
+            "columnName": "set_search_uri",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "set_uri",
+            "columnName": "set_uri",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "toughness",
+            "columnName": "toughness",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type_line",
+            "columnName": "type_line",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "uri",
+            "columnName": "uri",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6d00ed8a7af644e940d3580c10d50048')"
+    ]
+  }
+}

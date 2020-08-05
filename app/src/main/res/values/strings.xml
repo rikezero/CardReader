@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Card Reader</string>
+    <string name="notes">Anotações</string>
+    <string name="weekly_plan">Planejamento Semanal</string>
+</resources>
