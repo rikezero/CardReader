@@ -39,13 +39,14 @@ class ActMain : ActBind<ActMainBinding>() {
         })
 
         viewModel.getCards()
-//        viewModel.bulk.observe(this@ActMain, Observer {
-//            it.run {
-//                println(uri)
-//            }
-//        })
-//
-//        viewModel.api()
+
+        viewModel.bulk.observe(this@ActMain, Observer {
+            it.run {
+                println(uri)
+            }
+        })
+
+        viewModel.api()
 
 
     }
