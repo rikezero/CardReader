@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.example.cardreader.base.ActBind
+import com.example.cardreader.custom.activity
 import com.example.cardreader.custom.recyclerAdapter
 import com.example.cardreader.custom.viewBind
 import com.example.cardreader.databinding.ActMainBinding
@@ -45,7 +46,6 @@ class ActMain : ActBind<ActMainBinding>() {
                 println(uri)
             }
         })
-
         viewModel.api()
 
 

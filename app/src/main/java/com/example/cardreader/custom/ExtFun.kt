@@ -1,6 +1,7 @@
 package com.example.cardreader.custom
 
 import android.app.Activity
+import android.app.Application
 import android.content.Context
 import android.content.ContextWrapper
 import android.util.Log
@@ -8,8 +9,7 @@ import android.view.LayoutInflater
 import androidx.viewbinding.ViewBinding
 import com.example.cardreader.base.ContextFinder
 import okhttp3.ResponseBody
-import java.io.FileOutputStream
-import java.io.InputStream
+import java.io.*
 import kotlin.reflect.KClass
 
 val Context.inflater get() = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -30,6 +30,34 @@ val Context.activity: Activity
         is Activity -> this
         else -> (this as ContextWrapper).baseContext.activity
     }
+
+fun Context.writeFile(fileName:String, body: ResponseBody?){
+    var input: InputStream? = null
+    val outputStream:FileOutputStream
+    if (body != null) {
+        try {
+            input = body.byteStream()
+            outputStream = openFileOutput(fileName,Context.MODE_PRIVATE)
+            outputStream.use { output ->
+                val buffer = ByteArray(4 * 1024) // or other buffer size
+                var read: Int
+                while (input.read(buffer).also { read = it } != -1) {
+                    output.write(buffer, 0, read)
+                }
+                output.flush()
+            }
+
+        } catch (e: Exception) {
+            Log.e("saveFileError", e.toString())
+        } catch (e: FileNotFoundException) {
+            Log.e("FileNotFound", e.toString())
+        }
+    }
+    else{
+        return
+    }
+}
+
 
 fun saveFile(body: ResponseBody?, pathToSave: String):String{
     if (body==null)
@@ -56,3 +84,4 @@ fun saveFile(body: ResponseBody?, pathToSave: String):String{
     }
     return ""
 }
+

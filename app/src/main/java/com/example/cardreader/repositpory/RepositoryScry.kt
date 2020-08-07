@@ -6,6 +6,7 @@ package com.example.cardreader.repositpory
 import com.example.cardreader.model.DefaultCardsResponse
 import com.example.cardreader.retrofit.RetroInit
 import okhttp3.ResponseBody
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.http.Url

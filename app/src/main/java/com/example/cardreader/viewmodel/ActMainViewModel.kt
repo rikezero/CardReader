@@ -7,6 +7,7 @@ import androidx.core.net.toUri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.cardreader.R
 import com.example.cardreader.custom.saveFile
 import com.example.cardreader.model.CardItem
 import com.example.cardreader.model.DefaultCardsResponse
@@ -32,18 +33,21 @@ class ActMainViewModel(application: Application) : AndroidViewModel(application)
     }
     fun getCards() {
         dataSet.postValue(repository.getAllCards().getCards())
+
     }
 
     fun api() = CoroutineScope(Dispatchers.IO).launch {
         val response = repositoryScry.getDefaultBulk()
         bulk.postValue(response)
         println(response.downloadUri)
-        val responseBody=repositoryScry.getJSON("https://archive.scryfall.com/bulk-data/rulings/rulings-20200805170720.json").body()
-        val fileName=response.downloadUri.substring(response.downloadUri.lastIndexOf("/")+1)
-        val pathWhereYouWantToSaveFile = context.filesDir.absolutePath+fileName
-        saveFile(responseBody,pathWhereYouWantToSaveFile)
-        println()
-
+        val responseBody=repositoryScry.
+        getJSON("https://archive.scryfall.com/bulk-data/rulings/rulings-20200805170720.json")
+            .body()
+        val fileName = response.name + context.getString(R.string.json_extension)
+        println(fileName)
+        val saveLocation = context.filesDir.absolutePath
+        saveFile(responseBody,saveLocation)
+        println(context.dataDir.listFiles())
     }
 
 
