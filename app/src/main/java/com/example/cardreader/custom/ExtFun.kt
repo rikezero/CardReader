@@ -1,16 +1,20 @@
 package com.example.cardreader.custom
 
 import android.app.Activity
-import android.app.Application
 import android.content.Context
 import android.content.ContextWrapper
 import android.util.Log
 import android.view.LayoutInflater
 import androidx.viewbinding.ViewBinding
 import com.example.cardreader.base.ContextFinder
+import com.example.cardreader.model.CardItem
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import okhttp3.ResponseBody
 import java.io.*
+import java.lang.reflect.Type
 import kotlin.reflect.KClass
+
 
 val Context.inflater get() = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
@@ -83,5 +87,30 @@ fun saveFile(body: ResponseBody?, pathToSave: String):String{
         input?.close()
     }
     return ""
+}
+
+fun Context.updateDatabase(fileName:String){
+    val file = File(filesDir,fileName)
+    if (file.exists()){
+        val cardList = mutableListOf<CardItem>()
+        val fis = openFileInput(fileName)
+        val reader = BufferedReader(InputStreamReader(fis))
+        val data = StringBuilder()
+        val line: String?
+
+        line = reader.readLine()
+
+        while (line != null) {
+            data.append(line).append("\n")
+        }
+
+        data.toString()
+
+        reader.close()
+        fis.close()
+
+        val walletListType: Type = object : TypeToken<ArrayList<WalletClass?>?>() {}.type
+        walletList.add(Gson().fromJson(data, walletListType))
+    }
 }
 

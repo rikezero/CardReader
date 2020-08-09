@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.cardreader.R
 import com.example.cardreader.custom.saveFile
+import com.example.cardreader.custom.updateDatabase
 import com.example.cardreader.model.CardItem
 import com.example.cardreader.model.DefaultCardsResponse
 import com.example.cardreader.repositpory.RepositoryDatabase
@@ -41,13 +42,12 @@ class ActMainViewModel(application: Application) : AndroidViewModel(application)
         bulk.postValue(response)
         println(response.downloadUri)
         val responseBody=repositoryScry.
-        getJSON("https://archive.scryfall.com/bulk-data/rulings/rulings-20200805170720.json")
+        getJSON(response.downloadUri)
             .body()
         val fileName = response.name + context.getString(R.string.json_extension)
-        println(fileName)
-        val saveLocation = context.filesDir.absolutePath
-        saveFile(responseBody,saveLocation)
-        println(context.dataDir.listFiles())
+        val saveLocation = context.filesDir.absolutePath + "/" + fileName
+       //saveFile(responseBody, saveLocation)
+        context.updateDatabase(fileName)
     }
 
 
