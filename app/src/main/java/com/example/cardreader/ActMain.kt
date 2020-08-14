@@ -2,19 +2,15 @@ package com.example.cardreader
 
 
 import androidx.activity.viewModels
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.example.cardreader.base.ActBind
-import com.example.cardreader.custom.activity
 import com.example.cardreader.custom.recyclerAdapter
 import com.example.cardreader.custom.viewBind
 import com.example.cardreader.databinding.ActMainBinding
 import com.example.cardreader.model.CardItem
-import com.example.cardreader.model.DefaultCardsResponse
 import com.example.cardreader.recycler.ItemViewCard
 import com.example.cardreader.viewmodel.ActMainViewModel
-import com.google.gson.Gson
+
 
 class ActMain : ActBind<ActMainBinding>() {
     override val binding: ActMainBinding by viewBind()
@@ -46,7 +42,7 @@ class ActMain : ActBind<ActMainBinding>() {
                 println(uri)
             }
         })
-        viewModel.api()
+        //viewModel.api()
 
 
     }

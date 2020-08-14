@@ -96,7 +96,7 @@ fun Context.updateDatabase(fileName: String) {
         val jReader = JsonReader(reader)
         jReader.beginArray()
         while (jReader.hasNext()) {
-            cardList.add(readCard(jReader))
+            //cardList.add(readCard(jReader))
         }
         jReader.endArray()
 
@@ -152,13 +152,48 @@ fun readCard(reader: JsonReader) {
             image_uris = readImageArray(reader)
         } else if (card.equals("uri")) {
             uri = reader.nextString()
+        } else if (card.equals("mana_cost")) {
+            mana_cost = reader.nextString()
+        } else if (card.equals("cmc")) {
+            cmc = reader.nextString()
+        } else if (card.equals("type_line")) {
+            type_line = reader.nextString()
+        } else if (card.equals("oracle_text")) {
+            oracle_text = reader.nextString()
+        } else if (card.equals("power")) {
+            power = reader.nextString()
+        } else if (card.equals("toughness")) {
+            toughness = reader.nextString()
+        } else if (card.equals("colors") && reader.peek() != JsonToken.NULL) {
+            colors = readStringArray(reader)
+        } else if (card.equals("color_identity") && reader.peek() != JsonToken.NULL) {
+            color_identity = readStringArray(reader)
+        } else if (card.equals("keywords") && reader.peek() != JsonToken.NULL) {
+            keywords = readStringArray(reader)
         }
+
     }
     reader.endObject()
 }
 
+fun readStringArray(reader: JsonReader): String {
+    val list:ArrayList<String> = ArrayList()
+    val returnString:String
+
+    reader.beginArray()
+    while (reader.hasNext()){
+        list.add(reader.nextString())
+    }
+    reader.endArray()
+
+    returnString = list.toString().removeSurrounding("[","]")
+
+    return returnString
+}
+
 fun readImageArray(reader: JsonReader): String {
     val list: ArrayList<String> = ArrayList()
+    val returnString:String
 
     reader.beginObject()
     while (reader.hasNext()) {
@@ -186,6 +221,10 @@ fun readImageArray(reader: JsonReader): String {
     }
     reader.endObject()
 
-    return list.toString()
+    returnString = list.toString().removeSurrounding("[","]")
+
+    return returnString
+
 }
+
 
