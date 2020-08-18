@@ -10,8 +10,8 @@ import android.view.LayoutInflater
 import androidx.viewbinding.ViewBinding
 import com.example.cardreader.base.ContextFinder
 import com.example.cardreader.model.CardItem
-import com.google.gson.Gson
 import okhttp3.ResponseBody
+import okio.Utf8
 import java.io.*
 import kotlin.reflect.KClass
 
@@ -92,48 +92,50 @@ fun Context.updateDatabase(fileName: String) {
     if (file.exists()) {
         val cardList = mutableListOf<CardItem>()
         val inputStream = FileInputStream(file)
-        val reader = InputStreamReader(inputStream)
+        val reader = InputStreamReader(inputStream, "UTF-8")
         val jReader = JsonReader(reader)
-        jReader.beginArray()
-        while (jReader.hasNext()) {
-            //cardList.add(readCard(jReader))
+        jReader.use { jReader ->
+            jReader.beginArray()
+            while (jReader.hasNext()) {
+                cardList.add(readCard(jReader))
+            }
+            jReader.endArray()
         }
-        jReader.endArray()
-
+        println(cardList[0].name)
     }
+
 }
 
-fun readCard(reader: JsonReader) {
-    var artist: String
-    var artist_ids: String
-    var card_back_id: String
-    var cmc: String
-    var color_identity: String
-    var colors: String
-    var id: String
-    var illustration_id: String
-    var image_uris: String
-    var keywords: String
-    var lang: String
-    var legalities: String
-    var mana_cost: String
-    var name: String
-    var objekt: String
-    var oracle_text: String
-    var power: String
-    var preview: String
-    var produced_mana: String
-    var rarity: String
-    var rulings_uri: String
-    var scryfall_set_uri: String
-    var scryfall_uri: String
-    var set: String
-    var set_name: String
-    var set_search_uri: String
-    var set_uri: String
-    var toughness: String
-    var type_line: String
-    var uri: String
+fun readCard(reader: JsonReader): CardItem {
+    var artist = ""
+    var artistIds = ""
+    var cardBackId = ""
+    var cmc = ""
+    var colorIdentity = ""
+    var colors = ""
+    var id = ""
+    var illustrationId = ""
+    var imageUris = ""
+    var keywords = ""
+    var lang = ""
+    var legalities = ""
+    var manaCost = ""
+    var name = ""
+    var objekt = ""
+    var oracleText = ""
+    var power = ""
+    var producedMana = ""
+    var rarity = ""
+    var rulingsUri = ""
+    var scryfallSetUri = ""
+    var scryfallUri = ""
+    var set = ""
+    var setName = ""
+    var setSearchUri = ""
+    var setUri = ""
+    var toughness = ""
+    var typeLine = ""
+    var uri = ""
 
     reader.beginObject()
     while (reader.hasNext()) {
@@ -149,17 +151,17 @@ fun readCard(reader: JsonReader) {
         } else if (card.equals("uri")) {
             uri = reader.nextString()
         } else if (card.equals("image_uris") && reader.peek() != JsonToken.NULL) {
-            image_uris = readImageArray(reader)
+            imageUris = readImageArray(reader)
         } else if (card.equals("uri")) {
             uri = reader.nextString()
         } else if (card.equals("mana_cost")) {
-            mana_cost = reader.nextString()
+            manaCost = reader.nextString()
         } else if (card.equals("cmc")) {
             cmc = reader.nextString()
         } else if (card.equals("type_line")) {
-            type_line = reader.nextString()
+            typeLine = reader.nextString()
         } else if (card.equals("oracle_text")) {
-            oracle_text = reader.nextString()
+            oracleText = reader.nextString()
         } else if (card.equals("power")) {
             power = reader.nextString()
         } else if (card.equals("toughness")) {
@@ -167,33 +169,85 @@ fun readCard(reader: JsonReader) {
         } else if (card.equals("colors") && reader.peek() != JsonToken.NULL) {
             colors = readStringArray(reader)
         } else if (card.equals("color_identity") && reader.peek() != JsonToken.NULL) {
-            color_identity = readStringArray(reader)
+            colorIdentity = readStringArray(reader)
         } else if (card.equals("keywords") && reader.peek() != JsonToken.NULL) {
             keywords = readStringArray(reader)
+        } else if (card.equals("legalities")) {
+            keywords = readStringObj(reader)
+        } else if (card.equals("set")) {
+            set = reader.nextString()
+        } else if (card.equals("set_name")) {
+            setName = reader.nextString()
+        } else if (card.equals("set_search_uri")) {
+            setSearchUri = reader.nextString()
+        } else if (card.equals("rulings_uri")) {
+            rulingsUri = reader.nextString()
+        } else if (card.equals("artist")) {
+            artist = reader.nextString()
+        } else if (card.equals("artist_ids")) {
+            artistIds = readStringArray(reader)
+        } else if (card.equals("illustration_id")) {
+            illustrationId = reader.nextString()
+        } else if (card.equals("card_back_id")) {
+            cardBackId = reader.nextString()
+        } else if (card.equals("rarity")) {
+            rarity = reader.nextString()
+        } else if (card.equals("scryfall_set_uri")) {
+            scryfallSetUri = reader.nextString()
+        } else if (card.equals("scryfall_uri")) {
+            scryfallUri = reader.nextString()
+        } else if (card.equals("produced_mana")) {
+            producedMana = reader.nextString()
+        } else {
+            reader.skipValue();
         }
-
     }
     reader.endObject()
+
+    return CardItem(
+        artist, artistIds, cardBackId, cmc, colorIdentity, colors, id,
+        illustrationId, imageUris, keywords, lang, legalities, manaCost, name, objekt,
+        oracleText, power, producedMana, rarity, rulingsUri, scryfallSetUri, scryfallUri,
+        set, setName, setSearchUri, setUri, toughness, typeLine, uri
+    )
 }
 
 fun readStringArray(reader: JsonReader): String {
-    val list:ArrayList<String> = ArrayList()
-    val returnString:String
+    val list: ArrayList<String> = ArrayList()
+    val returnString: String
 
     reader.beginArray()
-    while (reader.hasNext()){
+    while (reader.hasNext()) {
         list.add(reader.nextString())
     }
     reader.endArray()
 
-    returnString = list.toString().removeSurrounding("[","]")
+    returnString = list.toString().removeSurrounding("[", "]")
+
+    return returnString
+}
+
+fun readStringObj(reader: JsonReader): String {
+    var returnString = ""
+    reader.beginObject()
+    while (reader.hasNext()) {
+        val format = "\"" + reader.nextName() + "\""
+        val legality = "\"" + reader.nextString() + "\""
+
+        returnString += "$format:$legality,"
+    }
+    reader.endObject()
+
+    returnString = returnString.substringBeforeLast(",")
+    returnString = "{$returnString}"
+
 
     return returnString
 }
 
 fun readImageArray(reader: JsonReader): String {
     val list: ArrayList<String> = ArrayList()
-    val returnString:String
+    val returnString: String
 
     reader.beginObject()
     while (reader.hasNext()) {
@@ -221,7 +275,7 @@ fun readImageArray(reader: JsonReader): String {
     }
     reader.endObject()
 
-    returnString = list.toString().removeSurrounding("[","]")
+    returnString = list.toString().removeSurrounding("[", "]")
 
     return returnString
 

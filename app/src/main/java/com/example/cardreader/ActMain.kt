@@ -44,7 +44,6 @@ class ActMain : ActBind<ActMainBinding>() {
         })
         //viewModel.api()
 
-
     }
 
 }

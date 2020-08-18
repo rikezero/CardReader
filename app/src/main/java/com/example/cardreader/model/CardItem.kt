@@ -24,7 +24,6 @@ data class CardItem(
     @ColumnInfo(name = "object") val objekt: String,
     @ColumnInfo(name = "oracle_text") val oracle_text: String,
     @ColumnInfo(name = "power") val power: String,
-    @ColumnInfo(name = "preview") val preview: String,
     @ColumnInfo(name = "produced_mana") val produced_mana: String,
     @ColumnInfo(name = "rarity") val rarity: String,
     @ColumnInfo(name = "rulings_uri") val rulings_uri: String,
