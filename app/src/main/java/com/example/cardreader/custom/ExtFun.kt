@@ -35,40 +35,12 @@ val Context.activity: Activity
         else -> (this as ContextWrapper).baseContext.activity
     }
 
-fun Context.writeFile(fileName: String, body: ResponseBody?) {
-    var input: InputStream? = null
-    val outputStream: FileOutputStream
-    if (body != null) {
-        try {
-            input = body.byteStream()
-            outputStream = openFileOutput(fileName, Context.MODE_PRIVATE)
-            outputStream.use { output ->
-                val buffer = ByteArray(4 * 1024) // or other buffer size
-                var read: Int
-                while (input.read(buffer).also { read = it } != -1) {
-                    output.write(buffer, 0, read)
-                }
-                output.flush()
-            }
-
-        } catch (e: Exception) {
-            Log.e("saveFileError", e.toString())
-        } catch (e: FileNotFoundException) {
-            Log.e("FileNotFound", e.toString())
-        }
-    } else {
-        return
-    }
-}
-
-
 fun saveFile(body: ResponseBody?, pathToSave: String): String {
     if (body == null)
         return ""
     var input: InputStream? = null
     try {
         input = body.byteStream()
-        //val file = File(getCacheDir(), "cacheFileAppeal.srl")
         val fos = FileOutputStream(pathToSave)
         fos.use { output ->
             val buffer = ByteArray(4 * 1024) // or other buffer size
@@ -102,6 +74,7 @@ fun Context.updateDatabase(fileName: String) {
             jReader.endArray()
         }
         println(cardList[0].name)
+        println(cardList[0].scryfall_uri)
     }
 
 }
@@ -140,66 +113,100 @@ fun readCard(reader: JsonReader): CardItem {
     reader.beginObject()
     while (reader.hasNext()) {
         val card: String = reader.nextName()
-        if (card.equals("object")) {
-            objekt = reader.nextString()
-        } else if (card.equals("id")) {
-            id = reader.nextString()
-        } else if (card.equals("name")) {
-            name = reader.nextString()
-        } else if (card.equals("lang")) {
-            lang = reader.nextString()
-        } else if (card.equals("uri")) {
-            uri = reader.nextString()
-        } else if (card.equals("image_uris") && reader.peek() != JsonToken.NULL) {
-            imageUris = readImageArray(reader)
-        } else if (card.equals("uri")) {
-            uri = reader.nextString()
-        } else if (card.equals("mana_cost")) {
-            manaCost = reader.nextString()
-        } else if (card.equals("cmc")) {
-            cmc = reader.nextString()
-        } else if (card.equals("type_line")) {
-            typeLine = reader.nextString()
-        } else if (card.equals("oracle_text")) {
-            oracleText = reader.nextString()
-        } else if (card.equals("power")) {
-            power = reader.nextString()
-        } else if (card.equals("toughness")) {
-            toughness = reader.nextString()
-        } else if (card.equals("colors") && reader.peek() != JsonToken.NULL) {
-            colors = readStringArray(reader)
-        } else if (card.equals("color_identity") && reader.peek() != JsonToken.NULL) {
-            colorIdentity = readStringArray(reader)
-        } else if (card.equals("keywords") && reader.peek() != JsonToken.NULL) {
-            keywords = readStringArray(reader)
-        } else if (card.equals("legalities")) {
-            keywords = readStringObj(reader)
-        } else if (card.equals("set")) {
-            set = reader.nextString()
-        } else if (card.equals("set_name")) {
-            setName = reader.nextString()
-        } else if (card.equals("set_search_uri")) {
-            setSearchUri = reader.nextString()
-        } else if (card.equals("rulings_uri")) {
-            rulingsUri = reader.nextString()
-        } else if (card.equals("artist")) {
-            artist = reader.nextString()
-        } else if (card.equals("artist_ids")) {
-            artistIds = readStringArray(reader)
-        } else if (card.equals("illustration_id")) {
-            illustrationId = reader.nextString()
-        } else if (card.equals("card_back_id")) {
-            cardBackId = reader.nextString()
-        } else if (card.equals("rarity")) {
-            rarity = reader.nextString()
-        } else if (card.equals("scryfall_set_uri")) {
-            scryfallSetUri = reader.nextString()
-        } else if (card.equals("scryfall_uri")) {
-            scryfallUri = reader.nextString()
-        } else if (card.equals("produced_mana")) {
-            producedMana = reader.nextString()
-        } else {
-            reader.skipValue();
+        when {
+            card.equals("object") -> {
+                objekt = reader.nextString()
+            }
+            card.equals("id") -> {
+                id = reader.nextString()
+            }
+            card.equals("name") -> {
+                name = reader.nextString()
+            }
+            card.equals("lang") -> {
+                lang = reader.nextString()
+            }
+            card.equals("uri") -> {
+                uri = reader.nextString()
+            }
+            card.equals("image_uris") && reader.peek() != JsonToken.NULL -> {
+                imageUris = readImageArray(reader)
+            }
+            card.equals("uri") -> {
+                uri = reader.nextString()
+            }
+            card.equals("mana_cost") -> {
+                manaCost = reader.nextString()
+            }
+            card.equals("cmc") -> {
+                cmc = reader.nextString()
+            }
+            card.equals("type_line") -> {
+                typeLine = reader.nextString()
+            }
+            card.equals("oracle_text") -> {
+                oracleText = reader.nextString()
+            }
+            card.equals("power") -> {
+                power = reader.nextString()
+            }
+            card.equals("toughness") -> {
+                toughness = reader.nextString()
+            }
+            card.equals("colors") && reader.peek() != JsonToken.NULL -> {
+                colors = readStringArray(reader)
+            }
+            card.equals("color_identity") && reader.peek() != JsonToken.NULL -> {
+                colorIdentity = readStringArray(reader)
+            }
+            card.equals("keywords") && reader.peek() != JsonToken.NULL -> {
+                keywords = readStringArray(reader)
+            }
+            card.equals("legalities") -> {
+                legalities = readStringObj(reader)
+            }
+            card.equals("set") -> {
+                set = reader.nextString()
+            }
+            card.equals("set_name") -> {
+                setName = reader.nextString()
+            }
+            card.equals("set_uri") -> {
+                setUri = reader.nextString()
+            }
+            card.equals("set_search_uri") -> {
+                setSearchUri = reader.nextString()
+            }
+            card.equals("rulings_uri") -> {
+                rulingsUri = reader.nextString()
+            }
+            card.equals("artist") -> {
+                artist = reader.nextString()
+            }
+            card.equals("artist_ids") -> {
+                artistIds = readStringArray(reader)
+            }
+            card.equals("illustration_id") -> {
+                illustrationId = reader.nextString()
+            }
+            card.equals("card_back_id") -> {
+                cardBackId = reader.nextString()
+            }
+            card.equals("rarity") -> {
+                rarity = reader.nextString()
+            }
+            card.equals("scryfall_set_uri") -> {
+                scryfallSetUri = reader.nextString()
+            }
+            card.equals("scryfall_uri") -> {
+                scryfallUri = reader.nextString()
+            }
+            card.equals("produced_mana") -> {
+                producedMana = reader.nextString()
+            }
+            else -> {
+                reader.skipValue();
+            }
         }
     }
     reader.endObject()
