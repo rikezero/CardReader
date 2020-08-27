@@ -15,7 +15,6 @@ import okio.Utf8
 import java.io.*
 import kotlin.reflect.KClass
 
-
 val Context.inflater get() = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
 @Suppress("UNCHECKED_CAST")
@@ -75,6 +74,7 @@ fun Context.updateDatabase(fileName: String) {
         }
         println(cardList[0].name)
         println(cardList[0].scryfall_uri)
+        println(cardList.size)
     }
 
 }
@@ -202,7 +202,7 @@ fun readCard(reader: JsonReader): CardItem {
                 scryfallUri = reader.nextString()
             }
             card.equals("produced_mana") -> {
-                producedMana = reader.nextString()
+                producedMana = readStringArray(reader)
             }
             else -> {
                 reader.skipValue();

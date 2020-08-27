@@ -46,7 +46,7 @@ class ActMainViewModel(application: Application) : AndroidViewModel(application)
             .body()
         val fileName = response.name + context.getString(R.string.json_extension)
         val saveLocation = context.filesDir.absolutePath + "/" + fileName
-       //saveFile(responseBody, saveLocation)
+       saveFile(responseBody, saveLocation)
         context.updateDatabase(fileName)
     }
 
