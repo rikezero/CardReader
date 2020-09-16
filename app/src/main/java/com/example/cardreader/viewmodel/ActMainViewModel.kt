@@ -34,10 +34,9 @@ class ActMainViewModel(application: Application) : AndroidViewModel(application)
     }
     fun getCards() {
         dataSet.postValue(repository.getAllCards().getCards())
-
     }
 
-    fun api() = CoroutineScope(Dispatchers.IO).launch {
+    fun api() = CoroutineScope(Dispatchers.Default).launch {
         val response = repositoryScry.getDefaultBulk()
         bulk.postValue(response)
         println(response.downloadUri)

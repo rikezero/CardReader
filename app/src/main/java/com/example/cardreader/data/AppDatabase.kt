@@ -31,6 +31,7 @@ object DatabaseBuilder {
         val appDatabase = database.build()
         instance = appDatabase
         return appDatabase
+        TODO("Tratamento para falta de espaço no dispositivo")
     }
 
     @JvmStatic

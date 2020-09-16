@@ -21,11 +21,11 @@ interface AccessCards {
     fun findById(cardID: String): CardItem
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(vararg notes: CardItem)
+    fun insert(card: CardItem)
 
     @Delete
     fun delete(cardItem: CardItem)
 
     @Update
-    fun update(cardItem: CardItem)
+    fun update( cardItem: CardItem)
 }

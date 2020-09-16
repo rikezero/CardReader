@@ -1,6 +1,7 @@
 package com.example.cardreader.custom
 
 import android.app.Activity
+import android.app.Application
 import android.content.Context
 import android.content.ContextWrapper
 import android.util.JsonReader
@@ -10,6 +11,10 @@ import android.view.LayoutInflater
 import androidx.viewbinding.ViewBinding
 import com.example.cardreader.base.ContextFinder
 import com.example.cardreader.model.CardItem
+import com.example.cardreader.repositpory.RepositoryDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import okio.Utf8
 import java.io.*
@@ -75,6 +80,11 @@ fun Context.updateDatabase(fileName: String) {
         println(cardList[0].name)
         println(cardList[0].scryfall_uri)
         println(cardList.size)
+        CoroutineScope(Dispatchers.Default).launch {
+           cardList.forEach { card ->
+               RepositoryDatabase(applicationContext).updateCards(card)
+           }
+        }
     }
 
 }
@@ -287,5 +297,7 @@ fun readImageArray(reader: JsonReader): String {
     return returnString
 
 }
+
+
 
 
