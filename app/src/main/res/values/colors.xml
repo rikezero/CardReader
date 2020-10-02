@@ -298,5 +298,6 @@
     <!-- Color for Transparency -->
     <color name="brown_200_profile_pic">#CCBCAAA4</color>
     <color name="black_A85">#D8000000</color>
+    <color name="black_A25">#40000000</color>
 
 </resources>
