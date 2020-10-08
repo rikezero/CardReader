@@ -4,5 +4,5 @@
     <string name="weekly_plan">Planejamento Semanal</string>
     <string name="json_extension">.json</string>
     <string name="updateCardBase">Deseja atualizar o banco de dados de cartas?</string>
-    <string name="updateWarning">Este procedimento pode demorar alguns minutos dependendo da sua velocidade de conexão e do seu dispositivo</string>
+    <string name="updateWarning">Este procedimento pode demorar alguns minutos dependendo da sua velocidade de conexão e do seu dispositivo.</string>
 </resources>
