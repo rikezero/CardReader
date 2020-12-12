@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "356131998952",
+    "project_id": "magic-card-tutor",
+    "storage_bucket": "magic-card-tutor.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:356131998952:android:c76ae7dbe8014d91b50d5d",
+        "android_client_info": {
+          "package_name": "com.example.cardreader"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "356131998952-ap4hi6ains0uso3mgsatdq0r8o003115.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cardreader",
+            "certificate_hash": "27334f4222a46ad352f7a6b812a2104851b964be"
+          }
+        },
+        {
+          "client_id": "356131998952-d996hl7p4k6rddav6ppl5uluu9nmooqu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuOmNjGUtuJS_UbX_GtDt1mNMN6z69VrI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "356131998952-d996hl7p4k6rddav6ppl5uluu9nmooqu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -21,6 +21,7 @@ class ActMain : ActBind<ActMainBinding>() {
     private val cards = mutableSetOf<CardItem>()
 
     override fun ActMainBinding.onBinding() {
+        
         val adapter = recyclerAdapter<ItemViewCard>(cards)
         recycler.adapter = adapter
 

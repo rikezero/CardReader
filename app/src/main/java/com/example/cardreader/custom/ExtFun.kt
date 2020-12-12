@@ -16,6 +16,8 @@ import androidx.viewbinding.ViewBinding
 import com.example.cardreader.base.ContextFinder
 import com.example.cardreader.model.CardItem
 import com.example.cardreader.repositpory.RepositoryDatabase
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -79,7 +81,7 @@ fun saveFile(body: ResponseBody?, pathToSave: String): String {
         }
         return pathToSave
     } catch (e: Exception) {
-        Log.e("saveFile", e.toString())
+        FirebaseCrashlytics.getInstance().recordException(e)
     } finally {
         input?.close()
     }
